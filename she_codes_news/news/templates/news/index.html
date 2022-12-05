@@ -1,5 +1,8 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 {% load static %}
+{% block stylesheets %}
+    <link rel="stylesheet" type="text/css" href="{% static 'news/styles.css' %}">
+{% endblock %}
 
 {% block content %}
     <h2>Latest News</h2>
@@ -7,6 +10,7 @@
     <div id="latest-stories">
         {% if latest_stories %}
             {% for story in latest_stories %}
+                {% include "./storyCard.html" with story=story position=for.loop.counter %}
                 <p>{{ story.title }}</p>
             {% endfor %}
         {% else %}
@@ -17,6 +21,7 @@
     <div id="all-stories">
         {% if latest_stories %}
             {% for story in all_stories %}
+                {% include "./storyCard.html" with story=story %}
                 <p>{{ story.title }}</p>
             {% endfor %}
         {% else %}
