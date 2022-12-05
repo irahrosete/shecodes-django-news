@@ -1,8 +1,16 @@
-<div id="story-wrapper">
-    <h2>{{ story.title }}</h2>
-    <h4>{{ story.author }}</h4>
-    <div id="story-content">
-        <img src="{% static '/news/images/placeholder-5.jpg' %}">
-        {{ story.content|linebreaks }}
+{% extends "base.html" %}
+{% load static %}
+{% block stylesheets %}
+<link rel="stylesheet" type="text/css" href="{% static 'news/styles.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div id="story-wrapper">
+        <h2>{{ story.title }}</h2>
+        <h4>{{ story.author }}</h4>
+        <div id="story-content">
+            <img src="{% static '/news/images/placeholder-5.jpg' %}">
+            {{ story.content|linebreaks }}
+        </div>
     </div>
-</div>
+{% endblock %}
