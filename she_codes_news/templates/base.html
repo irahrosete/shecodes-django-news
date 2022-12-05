@@ -6,7 +6,7 @@
         <meta charset="utf-8">
         <title>She Codes News</title>
         <meta name="description" content="">
-        <meta name="author" content="Hayley van Waas">
+        <meta name="author" content="Irah Rosete">
         <link href="https://fonts.googleapis.com/css?family=Manjari&display=swap" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
         {% block stylesheets %}
@@ -20,7 +20,7 @@
                     <h1>She {Codes} News</h1>
                 </a>
             </div>
-            <!-- include nav here -->
+            {% include "./nav.html" %}
         </header>
 
         {% block content %}
