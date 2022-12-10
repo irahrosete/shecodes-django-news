@@ -13,7 +13,11 @@
             </a>
         </h4>
         <div id="story-content">
-            <img src="{% static '/news/images/placeholder-5.jpg' %}">
+            {% if story.image %}
+                <img src="{{ story.image.url }}">
+            {% else %}
+                <img src="../../static/news/images/placeholder-5.jpg" alt="Story image">
+            {% endif %}
             {{ story.content|linebreaks }}
         </div>
     </div>
