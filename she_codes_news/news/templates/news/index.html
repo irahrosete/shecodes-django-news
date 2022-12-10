@@ -8,7 +8,9 @@
     <h2>Latest News</h2>
 
     {% if request.user.is_authenticated %}
+        <button>
         <a href="{% url 'news:newStory' %}">Write New Story</a>
+        </button>
     {% endif %}
 
     <div id="latest-stories">
