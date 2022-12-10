@@ -5,11 +5,10 @@
 {% endblock %}
 
 {% block content %}
-  <h2>{{user.username}}</h2>
+  <h2>{{profile.username}}</h2>
 
-  <div id="all-stories">
-    {% for story in user.newsstory_set.all %}
-      {% include "news/storyCard.html" with story=story %}
-    {% endfor %}
+  <div >
+    <p>{{ profile.email }}</p>
+    <button>Edit</button>
   </div>
 {% endblock %}
