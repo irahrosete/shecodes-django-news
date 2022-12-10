@@ -1,16 +1,15 @@
 {% extends "base.html" %}
 {% block content %}
-<h2>Update Account</h2>
-<form method="post">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">Save</button>
-  <button type="submit">
-    <a href="{% url 'users:password' %}">
-      Change Password
-    </a>
-  </button>
-
-
-</form>
+  <h2>Update Account</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <p><b>NOTE</b>: You will be logged out after the changes.</p>
+    <button type="submit">Save</button>
+    <button type="submit">
+      <a href="{% url 'users:password' %}">
+        Change Password
+      </a>
+    </button>
+  </form>
 {% endblock %}
