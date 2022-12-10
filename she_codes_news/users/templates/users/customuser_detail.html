@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load static %}
+{% block stylesheets %}
+  <link rel="stylesheet" type="text/css" href="{% static 'news/styles.css' %}">
+{% endblock %}
+
+{% block content %}
+  <h2>{{user.username}}</h2>
+
+  <div id="all-stories">
+    {% for story in user.newsstory_set.all %}
+      {% include "news/storyCard.html" with story=story %}
+    {% endfor %}
+  </div>
+{% endblock %}
