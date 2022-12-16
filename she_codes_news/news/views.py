@@ -1,8 +1,15 @@
 from django.views import generic
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
+from django.shortcuts import get_object_or_404
+from django.http import HttpResponseRedirect
 from .models import NewsStory
 from .forms import StoryForm
 
+
+def FavouriteView(request, pk):
+    story = get_object_or_404(NewsStory, id=request.POST.get("news_id"))
+    story.favourites.add(request.user)
+    return HttpResponseRedirect(reverse("news:story", args=[str(pk)]))
 
 class IndexView(generic.ListView):
     template_name = 'news/index.html'
