@@ -18,13 +18,16 @@ class IndexView(generic.ListView):
     def get_queryset(self):
         '''Return all news stories.'''
         qs = NewsStory.objects.all()
-        if author_id := self.request.GET.get('with_author'):
-            qs = qs.filter(author_id=author_id)
-        if search_text := self.request.GET.get('search'):
-            qs = qs.filter(
-                Q(title__icontains=search_text) |
-                Q(content__icontains=search_text)
-                )
+
+        form = SearchForm(self.request.GET)
+        if form.is_valid():
+            if author := form.cleaned_data.get('with_author'):
+                qs = qs.filter(author=author)
+            if search_text := form.cleaned_data.get('search'):
+                qs = qs.filter(
+                    Q(title__icontains=search_text) |
+                    Q(content__icontains=search_text)
+                    )
         return qs
 
     def get_context_data(self, **kwargs):
