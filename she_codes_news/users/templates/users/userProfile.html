@@ -13,4 +13,12 @@
       <a href="{% url 'users:updateAccount' profile.username%}">Edit</a>
     </button>
   </div>
+
+  <h2>Your Stories</h2>
+
+  <div id="all-stories">
+      {% for story in profile.newsstory_set.all %}
+        {% include "news/storyCard.html" with story=story %}
+      {% endfor %}
+    </div>
 {% endblock %}

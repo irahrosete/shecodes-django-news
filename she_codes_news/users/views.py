@@ -31,12 +31,6 @@ class PasswordChangeDoneCustomView(PasswordChangeDoneView):
     # form_class = ChangePasswordDoneForm
     template_name = "users/changePasswordDone.html"
 
-class UserStoryView(generic.DetailView):
-    model = CustomUser
-    context_object_name = "userstory"
-    slug_field = "username"
-    template_name = "users/userStory.html"
-
 class UserProfileView(generic.DetailView):
     model = CustomUser
     context_object_name = "profile"

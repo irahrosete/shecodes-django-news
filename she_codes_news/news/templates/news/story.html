@@ -8,7 +8,7 @@
     <div id="story-wrapper">
         <h2>{{ story.title }}</h2>
         <h4>
-            <a href="{% url 'users:userStory' story.author.username %}">
+            <a href="{% url 'users:profile' story.author.username %}">
                 {{ story.author }}
             </a>
         </h4>
