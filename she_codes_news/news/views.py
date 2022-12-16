@@ -1,5 +1,7 @@
 from django.views import generic
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
+from django.shortcuts import get_object_or_404
+from django.http import HttpResponseRedirect
 from .models import NewsStory
 from .forms import StoryForm
 
@@ -25,6 +27,19 @@ class StoryView(generic.DetailView):
     template_name = "news/story.html"
     context_object_name = "story"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        story_on = get_object_or_404(NewsStory, id=self.kwargs['pk'])
+        total_favourites = story_on.total_favourites()
+
+        favourited = False
+        if story_on.favourites.filter(id=self.request.user.id).exists():
+            favourited = True
+
+        context['total_favourites'] = total_favourites
+        context['favourited'] = favourited
+        return context
+
 class AddStoryView(generic.CreateView):
     form_class = StoryForm
     context_object_name = "storyForm"
@@ -34,3 +49,15 @@ class AddStoryView(generic.CreateView):
     def form_valid(self, form):
         form.instance.author = self.request.user
         return super().form_valid(form)
+
+def FavouriteView(request, pk):
+    story = get_object_or_404(NewsStory, id=request.POST.get("news_id"))
+    favourited = False
+    if story.favourites.filter(id=request.user.id).exists():
+        story.favourites.remove(request.user)
+        favourited = False
+    else:
+        story.favourites.add(request.user)
+        favourited = True
+
+    return HttpResponseRedirect(reverse("news:story", args=[str(pk)]))

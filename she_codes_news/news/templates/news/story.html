@@ -12,6 +12,23 @@
                 {{ story.author }}
             </a>
         </h4>
+
+        {% if request.user.is_authenticated %}
+        <form action="{% url 'news:favourite' story.id %}" method="POST">
+            {% csrf_token %}
+            {% if favourited %}
+                <button type="submit" , name="news_id" , value="{{ story.id }}">
+                    <img style="filter:grayscale(0%)" src="../../static/news/images/like-coloured.png" alt="Favourite coloured">
+                </button>
+            {% else %}
+                <button type="submit" , name="news_id" , value="{{ story.id }}">
+                    <img style="filter:grayscale(0%)" src="../../static/news/images/like-white.png" alt="Favourite white">
+                </button>
+            {% endif %}
+            <p style="display:inline">{{ total_favourites }}</p>
+        </form>
+        {% endif%}
+
         <div id="story-content">
             {% if story.image %}
                 <img src="{{ story.image.url }}">
