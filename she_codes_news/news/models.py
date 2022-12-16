@@ -10,3 +10,6 @@ class NewsStory(models.Model):
     content = models.TextField()
     image = models.ImageField(null=True, blank=True, upload_to="images/")
     favourites = models.ManyToManyField(USER, related_name="news_stories")
+
+    def total_favourites(self):
+        return self.favourites.count()

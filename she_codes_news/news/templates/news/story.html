@@ -15,9 +15,12 @@
 
         <form action="{% url 'news:favourite' story.id %}" method="POST">
             {% csrf_token %}
-            <button type="submit" , name="news_id" , value="{{ story.id }}">
-                favourite
-            </button>
+            {% if request.user.is_authenticated %}
+                <button type="submit" , name="news_id" , value="{{ story.id }}">
+                    👍🏼
+                </button> {{ total_favourites }}
+            {% endif%}
+
         </form>
 
         <div id="story-content">

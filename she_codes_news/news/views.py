@@ -27,6 +27,13 @@ class StoryView(generic.DetailView):
     template_name = "news/story.html"
     context_object_name = "story"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        story_on = get_object_or_404(NewsStory, id=self.kwargs['pk'])
+        total_favourites = story_on.total_favourites()
+        context['total_favourites'] = total_favourites
+        return context
+
 class AddStoryView(generic.CreateView):
     form_class = StoryForm
     context_object_name = "storyForm"
