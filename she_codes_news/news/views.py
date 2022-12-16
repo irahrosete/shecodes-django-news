@@ -1,25 +1,42 @@
 from django.views import generic
 from django.urls import reverse_lazy, reverse
+from django.contrib.auth import get_user_model
+from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect
 from .models import NewsStory
-from .forms import StoryForm
+from .forms import StoryForm, SearchForm
 
+USER = get_user_model()
 
 class IndexView(generic.ListView):
     template_name = 'news/index.html'
+    context_object_name = 'all_stories'
     # model = NewsStory
     # ordering = ['-pub_date']
 
     def get_queryset(self):
         '''Return all news stories.'''
-        return NewsStory.objects.all()
+        qs = NewsStory.objects.all()
+
+        form = SearchForm(self.request.GET)
+        if form.is_valid():
+            if author := form.cleaned_data.get('with_author'):
+                qs = qs.filter(author=author)
+            if search_text := form.cleaned_data.get('search'):
+                qs = qs.filter(
+                    Q(title__icontains=search_text) |
+                    Q(content__icontains=search_text)
+                    )
+        return qs
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         news = NewsStory.objects.order_by('-pub_date')
         context['latest_stories'] = news[:4]
-        context['all_stories'] = news[4:]
+        # context['all_stories'] = news
+        context['author_list'] = USER.objects.all()
+        context['form'] = SearchForm(self.request.GET)
         return context
 
 class StoryView(generic.DetailView):
