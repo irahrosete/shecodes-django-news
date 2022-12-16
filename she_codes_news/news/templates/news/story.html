@@ -12,6 +12,14 @@
                 {{ story.author }}
             </a>
         </h4>
+
+        <form action="{% url 'news:favourite' story.id %}" method="POST">
+            {% csrf_token %}
+            <button type="submit" , name="news_id" , value="{{ story.id }}">
+                favourite
+            </button>
+        </form>
+
         <div id="story-content">
             {% if story.image %}
                 <img src="{{ story.image.url }}">

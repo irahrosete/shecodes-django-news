@@ -6,11 +6,6 @@ from .models import NewsStory
 from .forms import StoryForm
 
 
-def FavouriteView(request, pk):
-    story = get_object_or_404(NewsStory, id=request.POST.get("news_id"))
-    story.favourites.add(request.user)
-    return HttpResponseRedirect(reverse("news:story", args=[str(pk)]))
-
 class IndexView(generic.ListView):
     template_name = 'news/index.html'
     # model = NewsStory
@@ -41,3 +36,8 @@ class AddStoryView(generic.CreateView):
     def form_valid(self, form):
         form.instance.author = self.request.user
         return super().form_valid(form)
+
+def FavouriteView(request, pk):
+    story = get_object_or_404(NewsStory, id=request.POST.get("news_id"))
+    story.favourites.add(request.user)
+    return HttpResponseRedirect(reverse("news:story", args=[str(pk)]))
