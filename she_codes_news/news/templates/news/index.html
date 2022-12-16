@@ -23,6 +23,19 @@
         {% endif %}
     </div>
 
+    <h2>All News</h2>
+
+    <form method="GET">
+        {% csrf_token %}
+        <select name="with_author">
+            <option value="">All Authors</option>
+            {% for author in author_list %}
+            <option value="{{ author.id }}">{{ author.username }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">filter</button>
+    </form>
+
     <div id="all-stories">
         {% if all_stories %}
             {% for story in all_stories %}
