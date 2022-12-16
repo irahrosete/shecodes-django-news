@@ -5,7 +5,7 @@ from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect
 from .models import NewsStory
-from .forms import StoryForm
+from .forms import StoryForm, SearchForm
 
 USER = get_user_model()
 
@@ -33,6 +33,7 @@ class IndexView(generic.ListView):
         context['latest_stories'] = news[:4]
         # context['all_stories'] = news
         context['author_list'] = USER.objects.all()
+        context['form'] = SearchForm(self.request.GET)
         return context
 
 class StoryView(generic.DetailView):

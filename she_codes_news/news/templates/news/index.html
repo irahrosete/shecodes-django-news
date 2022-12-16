@@ -28,16 +28,8 @@
     <div>
         <form method="GET">
             {% csrf_token %}
-            <select name="with_author">
-                <option value="">All Authors</option>
-                {% for author in author_list %}
-                    <option value="{{ author.id }}" {% if request.GET.with_author == author.id|stringformat:"i" %} selected="true" {% endif %}>
-                        {{ author.username }}
-                    </option>
-                {% endfor %}
-            </select>
+            {{ form.as_table }}
             <button type="submit">filter</button>
-            <input type="search" name="search" placeholder="search" value="{{request.GET.search}}" />
         </form>
     </div>
 
