@@ -25,16 +25,21 @@
 
     <h2>All News</h2>
 
-    <form method="GET">
-        {% csrf_token %}
-        <select name="with_author">
-            <option value="">All Authors</option>
-            {% for author in author_list %}
-            <option value="{{ author.id }}">{{ author.username }}</option>
-            {% endfor %}
-        </select>
-        <button type="submit">filter</button>
-    </form>
+    <div>
+        <form method="GET">
+            {% csrf_token %}
+            <select name="with_author">
+                <option value="">All Authors</option>
+                {% for author in author_list %}
+                    <option value="{{ author.id }}" {% if request.GET.with_author == author.id|stringformat:"i" %} selected="true" {% endif %}>
+                        {{ author.username }}
+                    </option>
+                {% endfor %}
+            </select>
+            <button type="submit">filter</button>
+            <input type="search" name="search" placeholder="search" value="{{request.GET.search}}" />
+        </form>
+    </div>
 
     <div id="all-stories">
         {% if all_stories %}

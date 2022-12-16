@@ -1,6 +1,7 @@
 from django.views import generic
 from django.urls import reverse_lazy, reverse
 from django.contrib.auth import get_user_model
+from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect
 from .models import NewsStory
@@ -19,6 +20,11 @@ class IndexView(generic.ListView):
         qs = NewsStory.objects.all()
         if author_id := self.request.GET.get('with_author'):
             qs = qs.filter(author_id=author_id)
+        if search_text := self.request.GET.get('search'):
+            qs = qs.filter(
+                Q(title__icontains=search_text) |
+                Q(content__icontains=search_text)
+                )
         return qs
 
     def get_context_data(self, **kwargs):
