@@ -31,7 +31,13 @@ class StoryView(generic.DetailView):
         context = super().get_context_data(**kwargs)
         story_on = get_object_or_404(NewsStory, id=self.kwargs['pk'])
         total_favourites = story_on.total_favourites()
+
+        favourited = False
+        if story_on.favourites.filter(id=self.request.user.id).exists():
+            favourited = True
+
         context['total_favourites'] = total_favourites
+        context['favourited'] = favourited
         return context
 
 class AddStoryView(generic.CreateView):
@@ -46,5 +52,12 @@ class AddStoryView(generic.CreateView):
 
 def FavouriteView(request, pk):
     story = get_object_or_404(NewsStory, id=request.POST.get("news_id"))
-    story.favourites.add(request.user)
+    favourited = False
+    if story.favourites.filter(id=request.user.id).exists():
+        story.favourites.remove(request.user)
+        favourited = False
+    else:
+        story.favourites.add(request.user)
+        favourited = True
+
     return HttpResponseRedirect(reverse("news:story", args=[str(pk)]))
